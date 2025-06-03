@@ -29,3 +29,7 @@ If you're hiring or want to collaborate, feel free to reach out!
 
 Email: drane.micah@gmail.com
 Portfolio: https://github.com/waterparkpolo
+
+Thanks for checking out my work!
+
+— Micah Drane
