@@ -2,12 +2,12 @@ Welcome to my Developer Portfolio repository — a showcase of my work across mu
 
 This repository includes projects and files written in:
 
-Python C HTML & CSS & JavaScript 
+Python, C, HTML, CSS & JavaScript 
 
  Project Highlights
 Here are a few highlights from this repository:
 
-Python Scripts – Automation tools, data parsers, and small-scale applications showcasing Pythonic principles and practical solutions.
+Python Scripts – Automation tools and small-scale applications showcasing Pythonic principles and practical solutions.
 
 C Programs – Memory-efficient and optimized code demonstrating knowledge of pointers, data structures, and low-level operations.
 
