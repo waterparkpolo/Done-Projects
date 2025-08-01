@@ -1,36 +1,3 @@
-Welcome to my Developer Portfolio repository — a showcase of my work across multiple languages and technologies including Python, C, HTML, CSS, and JavaScript. This repo demonstrates my ability to build efficient back-end logic, design responsive front-ends, and write clean, maintainable code across domains.
+While building this traffic sign recognition model, I experimented with several strategies to structure the pipeline effectively. My first focus was ensuring that the image loading and preprocessing steps were clean and scalable, so I implemented a loop to iterate through labeled directories and resize every image to a consistent 30x30 dimension. This worked well because it kept the dataset uniform and avoided shape mismatches when feeding data into the neural network. I also tried different configurations for splitting the data. Additionally, I explored using TensorFlow’s Sequential API to incrementally build the CNN, testing different layer depths and neuron counts. The combination of two convolutional layers, pooling, and a dense fully connected layer seemed to perform the best while keeping the model from overfitting too early.
 
-This repository includes projects and files written in:
-
-Python, C, HTML, CSS & JavaScript 
-
- Project Highlights
-Here are a few highlights from this repository:
-
-Python Scripts – Automation tools and small-scale applications showcasing Pythonic principles and practical solutions.
-
-C Programs – Memory-efficient and optimized code demonstrating knowledge of pointers, data structures, and low-level operations.
-
-Web Development Projects – Interactive web pages with well-structured HTML, styled with CSS, and enhanced with vanilla JavaScript to create dynamic user experiences.
-
- What You'll See
-This repository reflects my ability to:
-
-Write clean, well-commented code
-
-Work with both front-end and back-end stacks
-
-Learn and adapt to different programming paradigms
-
-Solve real-world problems using technology
-
- Contact Me
-If you're hiring or want to collaborate, feel free to reach out!
-
-Email: drane.micah@gmail.com
-Portfolio: https://github.com/waterparkpolo
-LinkedIn: https://www.linkedin.com/in/micah-drane-1128a5369/
-
-Thanks for checking out my work!
-
-— Micah Drane
+Not every approach went smoothly, and there were some valuable lessons along the way. Early on, I didn’t account for corrupted or unreadable images, which caused the code to break; adding a check to skip invalid files solved that issue. I also experimented with higher model complexity (extra convolutional layers and larger dense layers), but that caused longer training times with minimal accuracy gains, so I scaled back. Overall, the process taught me the importance of iterative testing: adding features one at a time, seeing how the model responded, and refining it into working version here.
