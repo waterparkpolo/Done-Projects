@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}My Tasks{% endblock %}
+{% block content %}
+  <h2>My Tasks</h2>
+
+  <section style="margin-bottom:20px">
+    <form method="post" action="{{ url_for('add_task') }}">
+      <label>Title</label>
+      <input name="title" required placeholder="Task title" />
+      <label>Description</label>
+      <textarea name="description" rows="3" placeholder="Optional"></textarea>
+      <label>Due date</label>
+      <input type="date" name="due_date" />
+      <div style="margin-top:8px">
+        <button type="submit">Add Task</button>
+      </div>
+    </form>
+  </section>
+
+  <section>
+    {% if tasks %}
+      {% for t in tasks %}
+        <div class="task">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <div style="font-weight:600">{{ t.title }} {% if t.completed %}✅{% endif %}</div>
+              <div class="muted small">{{ t.description or "No description" }}</div>
+            </div>
+            <div class="small muted">
+              Due: {{ t.due_date.strftime('%Y-%m-%d') if t.due_date else 'N/A' }}
+              <br>Created: {{ t.created_at.strftime('%Y-%m-%d') }}
+            </div>
+          </div>
+
+          <div style="margin-top:8px" class="task-actions">
+            <form method="post" action="{{ url_for('complete_task', task_id=t.id) }}" style="display:inline">
+              <button type="submit">Mark Complete</button>
+            </form>
+            <a href="{{ url_for('edit_task', task_id=t.id) }}" style="margin-left:8px">Edit</a>
+            <form method="post" action="{{ url_for('delete_task', task_id=t.id) }}" style="display:inline;margin-left:8px">
+              <button type="submit" style="background:#ff4d4d">Delete</button>
+            </form>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p class="muted">No tasks yet — add one above.</p>
+    {% endif %}
+  </section>
+{% endblock %}

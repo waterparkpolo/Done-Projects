@@ -1,0 +1,4 @@
+Flask==2.2.5
+Flask-SQLAlchemy==3.0.3
+passlib[bcrypt]==1.7.4
+python-dotenv==1.0.0
