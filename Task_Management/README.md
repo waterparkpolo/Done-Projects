@@ -26,23 +26,6 @@ Flask-SQLAlchemy==3.0.3
 passlib[bcrypt]==1.7.4
 python-dotenv==1.0.0
 
-Project Structure
-task_api/
-│── app.py
-│── requirements.txt
-│── templates/
-│   ├── base.html
-│   ├── index.html
-│   ├── register.html
-│   ├── login.html
-│   ├── tasks.html
-│   └── edit_task.html
-
-Install dependencies:
-
-pip install -r requirements.txt
-
-
 Run the application:
 
 python app.py
