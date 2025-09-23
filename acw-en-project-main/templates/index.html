@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudMart - Modern E-Commerce Demo</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+    <header class="main-header blue-bar">
+        <div class="logo">
+            <span class="cloud-icon"><i class="fa fa-cloud"></i></span>
+            <span>CloudMart</span>
+        </div>
+        <nav>
+            <a href="#">Home</a>
+            <a href="#products">Shop</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </nav>
+        <div class="cart">
+            <i class="fa fa-shopping-cart"></i>
+            <span class="cart-count">2</span>
+        </div>
+    </header>
+    <main>
+        <section id="hero" class="hero-section">
+            <div class="hero-content">
+                <h1>Shop the Cloud, Anytime</h1>
+                <p>Discover the latest in cloud-powered tech, gadgets, and more. Fast, secure, and delivered to your door.</p>
+                <a href="#products" class="cta-btn">Shop Now</a>
+            </div>
+        </section>
+        <section id="products" class="products-section">
+            <h2>Featured Products</h2>
+            <div class="product-list modern-grid">
+                <div class="product-card">
+                    <img src="https://m.media-amazon.com/images/I/61SUj2aKoEL.jpg" alt="Apple AirPods Pro">
+                    <h3>Apple AirPods Pro</h3>
+                    <div class="rating">⭐⭐⭐⭐⭐</div>
+                    <p class="price">$199.99</p>
+                    <button>Add to Cart</button>
+                </div>
+                <div class="product-card">
+                    <img src="https://m.media-amazon.com/images/I/81t8gScXClL._UF1000,1000_QL80_.jpg" alt="Amazon Echo Dot (4th Gen)">
+                    <h3>Amazon Echo Dot (4th Gen)</h3>
+                    <div class="rating">⭐⭐⭐⭐⭐</div>
+                    <p class="price">$49.99</p>
+                    <button>Add to Cart</button>
+                </div>
+                <div class="product-card">
+                    <img src="https://m.media-amazon.com/images/I/61ZtqtvoD2L._AC_SL1500_.jpg" alt="Fitbit Charge 5">
+                    <h3>Fitbit Charge 5</h3>
+                    <div class="rating">⭐⭐⭐⭐</div>
+                    <p class="price">$129.99</p>
+                    <button>Add to Cart</button>
+                </div>
+                <div class="product-card">
+                    <img src="https://m.media-amazon.com/images/I/51tx4G8JuXL._AC_SL1000_.jpg" alt="Google Nest Hub">
+                    <h3>Google Nest Hub</h3>
+                    <div class="rating">⭐⭐⭐⭐⭐</div>
+                    <p class="price">$89.99</p>
+                    <button>Add to Cart</button>
+                </div>
+            </div>
+        </section>
+        <section id="about" class="about-section">
+            <h2>About CloudMart</h2>
+            <p>CloudMart is a modern e-commerce demo site for cloud technology education and hands-on learning. Experience a real-world shopping interface powered by the latest in AI and cloud tech.</p>
+            <p><strong>Powered by AWS and Generative AI:</strong> This site is deployed on AWS, leveraging the scalability and reliability of the cloud. Our customer support chat is driven by a cutting-edge Generative AI Agent, using Large Language Models (LLMs) to provide instant, intelligent responses—just like the technology shaping the future of business.</p>
+            <p><strong>Ready to experience the future?</strong> Try chatting with our AI Agent below! Whether you're a student, tech enthusiast, or just curious, ask anything about CloudMart and see how AI can transform customer support. <span style="color:#0070f3;font-weight:600;">Start a conversation now and discover the possibilities!</span></p>
+        </section>
+        <section id="contact" class="contact-section">
+            <h2>Contact Us</h2>
+            <p>Email: support@cloudmart.demo</p>
+            <p>Phone: +1 (555) 123-4567</p>
+        </section>
+    </main>
+    <!-- Chat Widget -->
+    <div id="chat-widget">
+        <div id="chat-header">💬 Chat with CloudMart AI</div>
+        <div id="chat-body"></div>
+        <form id="chat-form">
+            <input type="text" id="chat-input" placeholder="Type your message..." autocomplete="off" required />
+            <button type="submit">Send</button>
+        </form>
+    </div>
+    <footer class="main-footer">
+        <div class="footer-student-highlight">Deployed by {{ student_name }}</div>
+        <div class="footer-links">
+            <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
+        </div>
+        <div class="footer-copy">&copy; 2025 CloudMart. All rights reserved.</div>
+    </footer>
+    <script src="/static/chat.js"></script>
+</body>
+</html> 

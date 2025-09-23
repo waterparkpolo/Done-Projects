@@ -1,0 +1,24 @@
+HTML Tags Used:
+1. <html>
+2. <head>
+3. <body>
+4. <title>
+5. <header>
+6. <nav>
+7. <section>
+8. <footer>
+9. <figure>
+10. <figcaption>
+
+CSS Properties Used:
+1. font-family
+2. margin
+3. padding
+4. background-color
+5. border-radius
+
+JavaScript Feature:
+- Used JavaScript to add interactivity to the contact form by validating user input before submission.
+
+Bootstrap Features Integrated:
+- Utilized Bootstrap's grid system and button components to create a responsive layout and styled navigation links.

@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Home - Task Manager{% endblock %}
+{% block content %}
+  <p>Welcome! This is a small task management app you can run locally.</p>
+  <p>
+    <a href="{{ url_for('register') }}">Create an account</a> or
+    <a href="{{ url_for('login') }}">Log in</a> to manage your tasks.
+  </p>
+{% endblock %}

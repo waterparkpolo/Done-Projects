@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Edit Task{% endblock %}
+{% block content %}
+  <h2>Edit Task</h2>
+  <form method="post">
+    <label>Title</label>
+    <input name="title" required value="{{ task.title }}" />
+    <label>Description</label>
+    <textarea name="description" rows="3">{{ task.description }}</textarea>
+    <label>Due date</label>
+    <input type="date" name="due_date" value="{{ task.due_date.strftime('%Y-%m-%d') if task.due_date else '' }}" />
+    <div style="margin-top:8px">
+      <button type="submit">Save</button>
+      <a href="{{ url_for('tasks') }}" style="margin-left:8px">Cancel</a>
+    </div>
+  </form>
+{% endblock %}

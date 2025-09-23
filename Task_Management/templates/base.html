@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>{% block title %}Task Manager{% endblock %}</title>
+  <style>
+    /* tiny, clean stylesheet so it looks decent without external deps */
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;max-width:900px;margin:20px auto;padding:0 16px;color:#111}
+    header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+    a{color:#0b69ff;text-decoration:none}
+    .flash{padding:8px;border-radius:6px;margin-bottom:12px}
+    .flash.success{background:#e6ffed;color:#034d14}
+    .flash.error{background:#ffecec;color:#6a0000}
+    .flash.info{background:#eef3ff;color:#012a6b}
+    form input,form textarea,form button, .task-actions a{font-size:1rem}
+    input,textarea{width:100%;padding:8px;border:1px solid #ddd;border-radius:6px;margin-top:6px}
+    button{padding:8px 12px;border-radius:6px;border:0;background:#0b69ff;color:white;cursor:pointer}
+    .task{border:1px solid #eee;padding:12px;border-radius:8px;margin-bottom:10px}
+    .muted{color:#666;font-size:.95rem}
+    .small{font-size:.9rem}
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1 style="margin:.1rem 0">{% block header %}Task Manager{% endblock %}</h1>
+      <div class="muted small">Simple Flask + SQLite todo app</div>
+    </div>
+    <nav>
+      {% if session.user_id %}
+        <span class="muted small">Signed in as {{ g.user.email }}</span> |
+        <a href="{{ url_for('tasks') }}">My Tasks</a> |
+        <a href="{{ url_for('logout') }}">Logout</a>
+      {% else %}
+        <a href="{{ url_for('index') }}">Home</a> |
+        <a href="{{ url_for('login') }}">Login</a> |
+        <a href="{{ url_for('register') }}">Register</a>
+      {% endif %}
+    </nav>
+  </header>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, msg in messages %}
+        <div class="flash {{ category }}">{{ msg }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  {% block content %}{% endblock %}
+</body>
+</html>
