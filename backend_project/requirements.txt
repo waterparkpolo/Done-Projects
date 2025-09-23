@@ -1,0 +1,4 @@
+Flask
+python-dotev
+psycopg2-binary
+flask_sqlalchemy
