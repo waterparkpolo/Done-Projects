@@ -11,4 +11,4 @@ class Config:
         f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SECRET_KEY= os.getnv("SECRET_KEY")
+    SECRET_KEY= os.getenv("SECRET_KEY")
