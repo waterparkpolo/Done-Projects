@@ -1,4 +1,4 @@
 Flask
-python-dotev
+python-dotenv
 psycopg2-binary
 flask_sqlalchemy
