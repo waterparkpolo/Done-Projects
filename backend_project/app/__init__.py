@@ -10,8 +10,7 @@ migrate = Migrate()
 def create_app():
     load_dotenv()
     app = Flask(__name__)
-    from .routes import api
-    app.register_blueprint(api)
+    
 
     from config import Config
     app.config.from_object(Config)
@@ -23,4 +22,6 @@ def create_app():
     from . import models  # <-- keep this line
 
     migrate.init_app(app, db)
+    from .routes import api
+    app.register_blueprint(api)
     return app
