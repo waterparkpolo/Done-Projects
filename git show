@@ -1,0 +1,11 @@
+[33mcommit b8edd62b1925fd443d8f5ea9bc9861973297dfaa[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mtesting/some-test[m[33m)[m
+Author: waterparkpolo <whitemikah60@gmail.com>
+Date:   Mon Sep 29 12:29:55 2025 -0400
+
+    add a test text file
+
+[33mcommit 7323f79bee454d6cae3ee87441f94a88226ae21f[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m
+Author: waterparkpolo <whitemikah60@gmail.com>
+Date:   Mon Sep 29 09:03:11 2025 -0400
+
+    Week 3: Task CRUD scaffold in routes

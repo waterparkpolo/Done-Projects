@@ -1,138 +1,167 @@
 from flask import Blueprint, request, jsonify
-from datetime import datetime
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from . import db
 from .models import User, Task, Note
 
 api = Blueprint("api", __name__, url_prefix="/api")
 
-# --- helpers ---
+# -------- helpers --------
 def task_to_dict(t: Task):
     return {
         "id": t.id,
         "user_id": t.user_id,
         "title": t.title,
         "is_done": t.is_done,
-        "created_at": t.created_at.isoformat(),
+        "created_at": t.created_at.isoformat() if t.created_at else None,
+    }
+
+def note_to_dict(n: Note):
+    return {
+        "id": n.id,
+        "user_id": n.user_id,
+        "body": n.body,
+        "created_at": n.created_at.isoformat() if n.created_at else None,
     }
 
 # =======================
-#        TASKS
+#         TASKS
 # =======================
 
-# GET /api/tasks  (list)
-@api.get("/tasks")
-def list_tasks():
-    tasks = Task.query.order_by(Task.id.asc()).all()
-    return jsonify([task_to_dict(t) for t in tasks]), 200
 
-# POST /api/tasks  (create)
 @api.post("/tasks")
+@jwt_required()
 def create_task():
+    user_id = int(get_jwt_identity())
     data = request.get_json(silent=True) or {}
     title = data.get("title")
-    user_id = data.get("user_id")
+    if not title:
+        return {"error": "title required"}, 400
 
-    if not title or not user_id:
-        return {"error": "title and user_id required"}, 400
-
-    # optional: verify user exists
-    if not User.query.get(user_id):
-        return {"error": f"user_id {user_id} not found"}, 404
-
-    t = Task(title=title, user_id=user_id, created_at=datetime.utcnow())
+    # Enforce ownership: always use token's user id
+    t = Task(title=title, user_id=user_id)  # let DB default set created_at
     db.session.add(t)
     db.session.commit()
     return task_to_dict(t), 201
 
-# GET /api/tasks/<id>  (read one)
+@api.get("/tasks")
+@jwt_required()
+def list_tasks():
+    uid = int(get_jwt_identity())
+    tasks = Task.query.filter_by(user_id=uid).order_by(Task.created_at.desc()).all()
+    return [task_to_dict(t) for t in tasks], 200
+
+
 @api.get("/tasks/<int:task_id>")
+@jwt_required()
 def get_task(task_id):
-    t = Task.query.get(task_id)
-    if not t:
+    user_id = int(get_jwt_identity())
+    t = db.session.get(Task, task_id)
+    if not t or t.user_id != user_id:
         return {"error": "task not found"}, 404
     return task_to_dict(t), 200
 
-# PUT /api/tasks/<id>  (replace all fields)
 @api.put("/tasks/<int:task_id>")
+@jwt_required()
 def put_task(task_id):
-    t = Task.query.get(task_id)
-    if not t:
+    user_id = int(get_jwt_identity())
+    t = db.session.get(Task, task_id)
+    if not t or t.user_id != user_id:
         return {"error": "task not found"}, 404
 
     data = request.get_json(silent=True) or {}
     title = data.get("title")
-    user_id = data.get("user_id")
     is_done = data.get("is_done")
 
-    if title is None or user_id is None or is_done is None:
-        return {"error": "title, user_id, is_done required"}, 400
-
-    if not User.query.get(user_id):
-        return {"error": f"user_id {user_id} not found"}, 404
+    if title is None or is_done is None:
+        return {"error": "title and is_done required"}, 400
 
     t.title = title
-    t.user_id = user_id
     t.is_done = bool(is_done)
     db.session.commit()
     return task_to_dict(t), 200
 
-# PATCH /api/tasks/<id>  (partial update)
 @api.patch("/tasks/<int:task_id>")
+@jwt_required()
 def patch_task(task_id):
-    t = Task.query.get(task_id)
-    if not t:
+    user_id = int(get_jwt_identity())
+    t = db.session.get(Task, task_id)
+    if not t or t.user_id != user_id:
         return {"error": "task not found"}, 404
 
     data = request.get_json(silent=True) or {}
-
     if "title" in data:
         t.title = data["title"]
     if "is_done" in data:
         t.is_done = bool(data["is_done"])
-    if "user_id" in data:
-        if not User.query.get(data["user_id"]):
-            return {"error": f"user_id {data['user_id']} not found"}, 404
-        t.user_id = data["user_id"]
-
     db.session.commit()
     return task_to_dict(t), 200
 
-# DELETE /api/tasks/<id>
 @api.delete("/tasks/<int:task_id>")
+@jwt_required()
 def delete_task(task_id):
-    t = Task.query.get(task_id)
-    if not t:
+    user_id = int(get_jwt_identity())
+    t = db.session.get(Task, task_id)
+    if not t or t.user_id != user_id:
         return {"error": "task not found"}, 404
     db.session.delete(t)
     db.session.commit()
     return {"status": "deleted", "id": task_id}, 200
 
 # =======================
-#        NOTES
+#         NOTES
 # =======================
 
 @api.get("/notes")
+@jwt_required()
 def list_notes():
-    notes = Note.query.all()
-    data = [
-        {
-            "id": n.id,
-            "user_id": n.user_id,
-            "body": n.body,
-            "created_at": n.created_at.isoformat(),
-        }
-        for n in notes
-    ]
-    return jsonify(data), 200
+    user_id = int(get_jwt_identity())
+    notes = db.session.query(Note).filter(Note.user_id == user_id).order_by(Note.id.asc()).all()
+    return jsonify([note_to_dict(n) for n in notes]), 200
 
 @api.post("/notes")
+@jwt_required()
 def create_note():
-    payload = request.get_json(force=True)
-    body = payload.get("body")
-    user_id = payload.get("user_id")
-    if not body or not user_id:
-        return {"error": "body and user_id required"}, 400
+    user_id = int(get_jwt_identity())
+    data = request.get_json(silent=True) or {}
+    body = data.get("body")
+    if not body:
+        return {"error": "body required"}, 400
+
     n = Note(body=body, user_id=user_id)
     db.session.add(n)
     db.session.commit()
     return {"id": n.id, "user_id": n.user_id, "body": n.body}, 201
+
+@api.get("/notes/<int:note_id>")
+@jwt_required()
+def get_note(note_id):
+    user_id = int(get_jwt_identity())
+    n = db.session.get(Note, note_id)
+    if not n or n.user_id != user_id:
+        return {"error": "note not found"}, 404
+    return note_to_dict(n), 200
+
+@api.patch("/notes/<int:note_id>")
+@jwt_required()
+def patch_note(note_id):
+    user_id = int(get_jwt_identity())
+    n = db.session.get(Note, note_id)
+    if not n or n.user_id != user_id:
+        return {"error": "note not found"}, 404
+
+    data = request.get_json(silent=True) or {}
+    if "body" in data:
+        n.body = data["body"]
+    db.session.commit()
+    return note_to_dict(n), 200
+
+@api.delete("/notes/<int:note_id>")
+@jwt_required()
+def delete_note(note_id):
+    user_id = int(get_jwt_identity())
+    n = db.session.get(Note, note_id)
+    if not n or n.user_id != user_id:
+        return {"error": "note not found"}, 404
+    db.session.delete(n)
+    db.session.commit()
+    return {"status": "deleted", "id": note_id}, 200
