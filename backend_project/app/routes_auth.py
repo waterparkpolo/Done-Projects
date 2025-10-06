@@ -22,7 +22,7 @@ def register():
     u.set_password(password)
     db.session.add(u)
     db.session.commit()
-    return {"id": u.id, "email": u.email, "username": u.username}, 201
+    return f"Created", {"id": u.id, "email": u.email, "username": u.username}, 201
 
 @auth_bp.post("/login")
 def login():

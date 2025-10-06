@@ -1,4 +1,4 @@
-
+from sqlalchemy.pool import NullPool
 import os
 
 class Config:
@@ -16,3 +16,18 @@ class Config:
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret")
+    PROPAGATE_EXCEPTIONS = True
+    # Neon/Free-tier friendly settings:
+    SQLALCHEMY_ENGINE_OPTIONS = {
+        # Avoid holding open connections on free tiers
+        "poolclass": NullPool,
+        # If you prefer a small pool instead of NullPool:
+        # "pool_size": 3,
+        # "max_overflow": 2,
+        # "pool_pre_ping": True,
+        # "pool_recycle": 1800,
+    }
+
+
+
+
