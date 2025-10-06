@@ -30,8 +30,10 @@ def create_app():
     app.register_blueprint(auth_bp)
     jwt.init_app(app)
     # Error & JWT handlers
+    #
     from .errors import register_error_handlers
     from .jwt_handlers import register_jwt_error_handlers
     register_error_handlers(app)
     register_jwt_error_handlers(jwt)
     return app
+
