@@ -165,3 +165,13 @@ def delete_note(note_id):
     db.session.delete(n)
     db.session.commit()
     return {"status": "deleted", "id": note_id}, 200
+# =======================
+#      HEALTH CHECK
+# =======================
+@api.get("/healthz")
+def healthz():
+    """
+    Simple health check endpoint for AWS Elastic Beanstalk.
+    Used by AWS to verify that the app is running.
+    """
+    return {"ok": True}, 200

@@ -3,6 +3,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from config import Config
+import logging
 from flask_jwt_extended import JWTManager
 
 db = SQLAlchemy()
@@ -35,5 +36,15 @@ def create_app():
     from .jwt_handlers import register_jwt_error_handlers
     register_error_handlers(app)
     register_jwt_error_handlers(jwt)
+    if not app.debug and not app.testing:
+        logging.basicConfig(
+            level=logging.INFO,
+            format="%(asctime)s [%(levelname)s] %(message)s",
+            handlers=[
+                logging.StreamHandler()  # logs to stdout (so EB can capture it)
+            ]
+        )
+        app.logger.info("App initialized in production mode.")
+
     return app
 
