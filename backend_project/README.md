@@ -20,3 +20,12 @@ Copy code
 flask run
 
 Copy code
+### Deployment (Elastic Beanstalk + Neon)
+pip install awsebcli
+eb init
+eb create backend-api-env --single --instance_types t3.micro
+eb setenv DATABASE_URL="..." SECRET_KEY="..." JWT_SECRET_KEY="..." FLASK_ENV="production"
+eb deploy
+# one-time migrations
+eb ssh && source /var/app/venv/*/bin/activate && cd /var/app/current && flask db upgrade
+
